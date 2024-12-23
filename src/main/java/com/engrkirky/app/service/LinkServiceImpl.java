@@ -4,6 +4,7 @@ import com.engrkirky.app.dto.LinkDTO;
 import com.engrkirky.app.mapper.LinkMapper;
 import com.engrkirky.app.model.Link;
 import com.engrkirky.app.repository.LinkRepository;
+import com.engrkirky.app.util.LinkUtil;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -36,7 +37,10 @@ public class LinkServiceImpl implements LinkService {
 
     @Override
     @Transactional
-    public void addLink(LinkDTO linkDTO) {
+    public boolean addLink(LinkDTO linkDTO) {
+        if (!LinkUtil.isValidHttpStatusCode(linkDTO.statusCode())) return false;
         linkRepository.addLink(linkMapper.convertToEntity(linkDTO));
+
+        return true;
     }
 }

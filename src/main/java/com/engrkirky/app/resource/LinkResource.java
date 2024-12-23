@@ -41,7 +41,9 @@ public class LinkResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response addLink(LinkDTO linkDTO) {
-        linkService.addLink(linkDTO);
-        return Response.status(Response.Status.CREATED).build();
+        boolean result = linkService.addLink(linkDTO);
+        return result
+                ? Response.status(Response.Status.CREATED).build()
+                : Response.status(Response.Status.BAD_REQUEST).build();
     }
 }

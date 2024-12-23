@@ -9,6 +9,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @ApplicationScoped
@@ -29,8 +30,8 @@ public class LinkServiceImpl implements LinkService {
     }
 
     @Override
-    public List<LinkDTO> getLinksByStatusCode(short statusCode) {
-        return linkRepository.findLinksByStatusCode(statusCode).stream()
+    public List<LinkDTO> getLinksByStatusCode(short statusCode, LocalDateTime start, LocalDateTime end) {
+        return linkRepository.findLinksByStatusCode(statusCode, start, end).stream()
                 .map(linkMapper::convertToDTO)
                 .toList();
     }

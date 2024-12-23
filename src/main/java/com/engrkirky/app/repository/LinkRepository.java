@@ -6,6 +6,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,9 +27,11 @@ public class LinkRepository {
                 .findFirst();
     }
 
-    public List<Link> findLinksByStatusCode(short statusCode) {
+    public List<Link> findLinksByStatusCode(short statusCode, LocalDateTime start, LocalDateTime end) {
         return jpaStreamer.stream(Link.class)
-                .filter(link -> link.getStatusCode() == statusCode)
+                .filter(link -> link.getStatusCode() == statusCode
+                        && link.getTimestamp().isAfter(start)
+                        && link.getTimestamp().isBefore(end))
                 .toList();
     }
 
